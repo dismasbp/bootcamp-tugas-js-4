@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Laptop Showcase Dismas</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .card-img-top {
+            object-fit: cover;
+            height: 180px;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+        }
+
+        .filter-label {
+            font-weight: 600;
+        }
+        
+        .pagination-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1rem;
+            user-select: none;
+            gap: 0.25rem;
+        }
+
+        .pagination .page-link {
+            cursor: pointer;
+            padding: 0.375rem 0.625rem;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 767.98px) {
+            /* Adjust the card image height smaller on small devices */
+            .card-img-top {
+                height: 140px;
+            }
+            /* Stack filter inputs vertically for small screens */
+            .filter-section .col-md-4,
+            .filter-section .col-md-3,
+            .filter-section .col-md-2 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            .filter-section .text-end {
+                text-align: start !important;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991.98px) {
+            /* Medium devices (tablets) - adjust image height moderately */
+            .card-img-top {
+                height: 160px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-5">
+        <h1 class="mb-4 text-center text-primary">Laptop Showcase</h1>
+
+        <div class="filter-section row g-3 align-items-end">
+            <div class="col-md-4">
+                <label for="searchName" class="form-label filter-label">Search by Name</label>
+                <input type="text" id="searchName" class="form-control" placeholder="Enter laptop name" autocomplete="off" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label filter-label d-block">Filter by Price</label>
+                <div class="input-group">
+                <span class="input-group-text">Min</span>
+                <input type="number" id="minPrice" class="form-control" placeholder="0" min="0" autocomplete="off" />
+                <span class="input-group-text">Max</span>
+                <input type="number" id="maxPrice" class="form-control" placeholder="9999999" min="0" autocomplete="off" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="sortOption" class="form-label filter-label">Sort By</label>
+                <select id="sortOption" class="form-select" aria-label="Sort laptops">
+                <option value="name-asc" selected>Name A-Z</option>
+                <option value="name-desc">Name Z-A</option>
+                <option value="price-asc">Price Low to High</option>
+                <option value="price-desc">Price High to Low</option>
+                </select>
+            </div>
+            <div class="col-md-2 text-end">
+                <button id="resetFilters" class="btn btn-secondary w-100">Reset Filters</button>
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination pagination-container" role="navigation" aria-label="Pagination navigation">
+                <!-- Pagination buttons inserted by JS -->
+            </ul>
+        </nav>
+
+        <div id="laptopContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4"></div>
+
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination pagination-container" role="navigation" aria-label="Pagination navigation">
+                <!-- Pagination buttons inserted by JS -->
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+        // Base photos array (12 different photos)
+        const basePhotos = [
+            "images/product/photo-1517336714731-489689fd1ca8.avif",
+            "images/product/15-macbook-air-vs-13-air-weight-size.webp",
+            "images/product/lenovo-laptop-ideapad-3-14-amd-subseries-gallery-1.webp",
+            "images/product/Intro-ASUS-ROG-Zephyrus-G14.webp",
+            "images/product/GopCyNjhvkFXGvg5yDDgBE.jpg",
+            "images/product/Gear-Surface-Book-3-4-ways-SOURCE-Microsoft.webp",
+            "images/product/acer-laptop-swift-3-kick-start-your-productivity-l-2.png",
+            "images/product/razer-blade-stealth-2020-usp-gaming-performance-mobile.jpg",
+            "images/product/hk_en-feature--nbsp-374907448.jpeg",
+            "images/product/efhFoMEcdnPXQFDQPBiZD3.jpg",
+            "images/product/laptop_awm17_r4_non-touch_non-tobii_wh_01.avif",
+            "images/product/1600x1062gram14_01.jpg"
+        ];
+
+        const laptopBrands = [
+            { brand: "Dell", models: ["XPS 13", "Inspiron 15", "Latitude 7420"] },
+            { brand: "Apple", models: ["MacBook Pro 13\"", "MacBook Air", "MacBook Pro 16\""] },
+            { brand: "Lenovo", models: ["ThinkPad X1 Carbon", "Yoga Slim 7", "IdeaPad 3"] },
+            { brand: "Asus", models: ["ROG Zephyrus G14", "VivoBook S15", "TUF Gaming A15"] },
+            { brand: "HP", models: ["Spectre x360", "Envy 13", "Pavilion 15"] },
+            { brand: "Microsoft", models: ["Surface Laptop 4", "Surface Pro 7", "Surface Book 3"] },
+            { brand: "Acer", models: ["Swift 3", "Aspire 5", "Predator Helios 300"] },
+            { brand: "Razer", models: ["Blade 15", "Blade Stealth 13", "Blade Pro 17"] },
+            { brand: "Samsung", models: ["Galaxy Book Pro", "Galaxy Book Ion", "Galaxy Book Flex"] },
+            { brand: "Google", models: ["Pixelbook Go", "Pixelbook", "Chromebook"] },
+            { brand: "Alienware", models: ["m15 R6", "m17 R4", "x14"] },
+            { brand: "LG", models: ["Gram 17", "Gram 16", "Gram 14"] }
+        ];
+
+        const descriptions = [
+            "Sleek design with powerful performance, perfect for professionals on the go.",
+            "High-end laptop with latest processors, ideal for creative professionals.",
+            "Durable laptop with great keyboard and excellent battery life.",
+            "Gaming laptop with fast CPU and dedicated GPU.",
+            "Convertible laptop with stunning touchscreen display.",
+            "Thin and light laptop with great display and Windows integration.",
+            "Affordable ultrabook with solid performance and battery life.",
+            "Premium gaming laptop with sleek design and powerful hardware.",
+            "Lightweight laptop with AMOLED display and long battery life.",
+            "Chrome OS laptop with excellent keyboard and portability.",
+            "High-performance gaming laptop with advanced cooling system.",
+            "Extremely lightweight laptop with a large screen and good battery life."
+        ];
+
+        // Generate 120 laptops
+        let laptops     = [];
+        let idCounter   = 1;
+        for (let i = 0; i < 120; i++) {
+            const brandIndex        = i % laptopBrands.length;
+            const { brand, models } = laptopBrands[brandIndex];
+            const model             = models[i % models.length];
+            const name              = `${brand} ${model}`;
+
+            // Price range for variety: 7,000,000 to 35,000,000 IDR approx, with brand offset
+            const priceBase         = 7000000 + brandIndex * 2000000;
+            const randomVariation   = Math.floor(Math.random() * 14000000);
+            const price             = priceBase + randomVariation;
+            const description       = descriptions[brandIndex];
+            const photo             = basePhotos[brandIndex];
+            laptops.push({ id: idCounter++, name, price, description, photo });
+        }
+
+        const laptopsPerPage    = 15;
+        let currentPage         = 1;
+        let filteredLaptops     = []; 
+
+        const laptopContainer       = document.getElementById('laptopContainer');
+        const searchNameInput       = document.getElementById('searchName');
+        const minPriceInput         = document.getElementById('minPrice');
+        const maxPriceInput         = document.getElementById('maxPrice');
+        const sortOptionSelect      = document.getElementById('sortOption');
+        const resetFiltersBtn       = document.getElementById('resetFilters');
+        const paginationContainer   = document.getElementById('pagination');
+
+        function formatCurrency(num) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
+        }
+
+        function createLaptopCard(laptop) {
+            const card      = document.createElement('div');
+            card.className  = 'col';
+            card.innerHTML  = `
+                <div class="card h-100 shadow-sm border-0 rounded-4">
+                <img src="${laptop.photo}" class="card-img-top rounded-top-4" alt="${laptop.name}" />
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary">${laptop.name}</h5>
+                    <h6 class="card-subtitle mb-2 text-success">${formatCurrency(laptop.price)}</h6>
+                    <p class="card-text flex-grow-1">${laptop.description}</p>
+                </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderLaptops() {
+            laptopContainer.innerHTML = '';
+            if (filteredLaptops.length === 0) {
+                laptopContainer.innerHTML       = '<p class="text-center text-muted fs-5">No laptops found matching the criteria.</p>';
+                paginationContainer.innerHTML   = '';
+                return;
+            }
+            const startIndex    = (currentPage - 1) * laptopsPerPage;
+            const endIndex      = startIndex + laptopsPerPage;
+            const laptopsToShow = filteredLaptops.slice(startIndex, endIndex);
+
+            laptopsToShow.forEach(laptop => {
+                laptopContainer.appendChild(createLaptopCard(laptop));
+            });
+
+            renderPagination();
+        }
+
+        function renderPagination() {
+        const totalPages = Math.ceil(filteredLaptops.length / laptopsPerPage);
+        if (totalPages <= 1) {
+            paginationContainer.innerHTML = '';
+            return;
+        }
+        let paginationHTML = '';
+
+        paginationHTML += `
+            <li class="page-item${currentPage === 1 ? ' disabled' : ''}">
+            <button class="page-link" aria-label="Previous page" data-page="${currentPage - 1}" aria-disabled="${currentPage === 1}">&laquo;</button>
+            </li>`;
+
+        const maxPageButtons    = 7;
+        let startPage           = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+        let endPage             = startPage + maxPageButtons - 1;
+        if (endPage > totalPages) {
+            endPage     = totalPages;
+            startPage   = Math.max(1, endPage - maxPageButtons + 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            paginationHTML += `
+            <li class="page-item${currentPage === i ? ' active' : ''}" aria-current="${currentPage === i ? 'page' : false}">
+            <button class="page-link" data-page="${i}">${i}</button>
+            </li>`;
+        }
+
+        paginationHTML += `
+            <li class="page-item${currentPage === totalPages ? ' disabled' : ''}">
+            <button class="page-link" aria-label="Next page" data-page="${currentPage + 1}" aria-disabled="${currentPage === totalPages}">&raquo;</button>
+            </li>`;
+
+        paginationContainer.innerHTML = paginationHTML;
+
+        const pageButtons = paginationContainer.querySelectorAll('button.page-link');
+        pageButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+            const selectedPage = parseInt(btn.getAttribute('data-page'), 10);
+            if (selectedPage >= 1 && selectedPage <= totalPages && selectedPage !== currentPage) {
+                currentPage = selectedPage;
+                renderLaptops();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+            });
+        });
+        }
+
+        function filterAndSortLaptops() {
+            const searchTerm    = searchNameInput.value.trim().toLowerCase();
+            const minPrice      = parseInt(minPriceInput.value);
+            const maxPrice      = parseInt(maxPriceInput.value);
+            const sortOption    = sortOptionSelect.value;
+
+            filteredLaptops = laptops.filter(laptop => {
+                const matchesName   = laptop.name.toLowerCase().includes(searchTerm);
+                const priceOK       =
+                    (isNaN(minPrice) || laptop.price >= minPrice) &&
+                    (isNaN(maxPrice) || laptop.price <= maxPrice);
+                    return matchesName && priceOK;
+            });
+
+            switch (sortOption) {
+                case 'name-asc':
+                    filteredLaptops.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+                case 'name-desc':
+                    filteredLaptops.sort((a, b) => b.name.localeCompare(a.name));
+                break;
+                case 'price-asc':
+                    filteredLaptops.sort((a, b) => a.price - b.price);
+                break;
+                case 'price-desc':
+                    filteredLaptops.sort((a, b) => b.price - a.price);
+                break;
+            }
+
+            currentPage = 1;
+            renderLaptops();
+        }
+
+        searchNameInput.addEventListener('input', filterAndSortLaptops);
+        minPriceInput.addEventListener('input', filterAndSortLaptops);
+        maxPriceInput.addEventListener('input', filterAndSortLaptops);
+        sortOptionSelect.addEventListener('change', filterAndSortLaptops);
+
+        resetFiltersBtn.addEventListener('click', () => {
+            searchNameInput.value   = '';
+            minPriceInput.value     = '';
+            maxPriceInput.value     = '';
+            sortOptionSelect.value  = 'name-asc';
+            filterAndSortLaptops();
+        });
+
+        filterAndSortLaptops();
+    </script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
