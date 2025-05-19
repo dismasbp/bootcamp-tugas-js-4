@@ -114,73 +114,127 @@
     </div>
 
     <script>
-        // Base photos array (12 different photos)
-        const basePhotos = [
-            "images/product/photo-1517336714731-489689fd1ca8.avif",
-            "images/product/15-macbook-air-vs-13-air-weight-size.webp",
-            "images/product/lenovo-laptop-ideapad-3-14-amd-subseries-gallery-1.webp",
-            "images/product/Intro-ASUS-ROG-Zephyrus-G14.webp",
-            "images/product/GopCyNjhvkFXGvg5yDDgBE.jpg",
-            "images/product/Gear-Surface-Book-3-4-ways-SOURCE-Microsoft.webp",
-            "images/product/acer-laptop-swift-3-kick-start-your-productivity-l-2.png",
-            "images/product/razer-blade-stealth-2020-usp-gaming-performance-mobile.jpg",
-            "images/product/hk_en-feature--nbsp-374907448.jpeg",
-            "images/product/efhFoMEcdnPXQFDQPBiZD3.jpg",
-            "images/product/laptop_awm17_r4_non-touch_non-tobii_wh_01.avif",
-            "images/product/1600x1062gram14_01.jpg"
+        // Array of laptop products
+        const laptops = [
+            {
+                name: 'Dell XPS 13',
+                price: 14490000,
+                description: 'Sleek design with powerful performance, perfect for professionals on the go.',
+                photo: 'images/product/photo-1517336714731-489689fd1ca8.avif'
+            },
+            {
+                name: 'Apple MacBook Air M1',
+                price: 15500000,
+                description: 'High-end laptop with latest processors, ideal for creative professionals.',
+                photo: 'images/product/15-macbook-air-vs-13-air-weight-size.webp'
+            },
+            {
+                name: 'Asus ROG Zephyrus G14',
+                price: 23500000,
+                description: 'Gaming laptop with fast CPU and dedicated GPU.',
+                photo: 'images/product/Intro-ASUS-ROG-Zephyrus-G14.webp'
+            },
+            {
+                name: 'Lenovo ThinkPad X1 Carbon',
+                price: 27000000,
+                description: 'Durable laptop with great keyboard and excellent battery life.',
+                photo: 'images/product/vmmifhcodk8bu3j59juxcadhuac6rp932193.avif'
+            },
+            {
+                name: 'HP Spectre x360',
+                price: 19000000,
+                description: 'Convertible laptop with stunning touchscreen display.',
+                photo: 'images/product/spectre-hp-x360.png'
+            },
+            {
+                name: 'Microsoft Surface Laptop 4',
+                price: 21000000,
+                description: 'Thin and light laptop with great display and Windows integration.',
+                photo: 'images/product/Gear-Surface-Book-3-4-ways-SOURCE-Microsoft.webp'
+            },
+            {
+                name: 'Acer Swift 3',
+                price: 9500000,
+                description: 'Affordable ultrabook with solid performance and battery life.',
+                photo: 'images/product/acer-laptop-swift-3-kick-start-your-productivity-l-2.png'
+            },
+            {
+                name: 'Razer Blade 15',
+                price: 28000000,
+                description: 'Premium gaming laptop with sleek design and powerful hardware.',
+                photo: 'images/product/730x480-img-82047-laptop-razer-blade-15-2023.jpg'
+            },
+            {
+                name: 'LG Gram 17',
+                price: 18500000,
+                description: 'Extremely lightweight laptop with a large screen and good battery life.',
+                photo: 'images/product/D-02.jpg'
+            },
+            {
+                name: 'Samsung Galaxy Book Pro',
+                price: 16500000,
+                description: 'Lightweight laptop with AMOLED display and long battery life.',
+                photo: 'images/product/hk_en-feature--nbsp-374907448.jpeg'
+            },
+            {
+                name: 'MSI Prestige 14',
+                price: 17500000,
+                description: 'High-performance laptop with advanced cooling system.',
+                photo: 'images/product/fa64aa70-7d30-4e15-bba2-9e548409edb1.jpg'
+            },
+            {
+                name: 'Apple MacBook Pro 14" M1 Pro',
+                price: 32000000,
+                description: 'High-end laptop with latest processors, ideal for creative professionals.',
+                photo: 'images/product/macbook-pro-2021-cnet-review-12.webp'
+            },
+            {
+                name: 'Dell Inspiron 15 7000',
+                price: 14000000,
+                description: 'Versatile laptop with a large screen and powerful performance.',
+                photo: 'images/product/dellinspironblack1-100812154-orig.webp'
+            },
+            {
+                name: 'Asus VivoBook S14',
+                price: 11000000,
+                description: 'Stylish laptop with good performance for everyday tasks.',
+                photo: 'images/product/download.png'
+            },
+            {
+                name: 'Lenovo Legion 5',
+                price: 20500000,
+                description: 'Gaming laptop with advanced cooling system and powerful graphics.',
+                photo: 'images/product/3400450d-1dcc-4eb7-832b-c80fef70b373.jpg'
+            },
+            {
+                name: 'HP Envy 13',
+                price: 12500000,
+                description: 'Ultraportable laptop with premium build quality and solid performance.',
+                photo: 'images/product/GopCyNjhvkFXGvg5yDDgBE.jpg'
+            },
+            {
+                name: 'Microsoft Surface Pro 8',
+                price: 18500000,
+                description: '2-in-1 tablet with detachable keyboard and reliable performance.',
+                photo: 'images/product/Microsoft-Surface-Pro-8-001.jpg'
+            },
+            {
+                name: 'Acer Predator Helios 300',
+                price: 22000000,
+                description: 'Gaming laptop with high refresh rate and powerful hardware.',
+                photo: 'images/product/3ff81d4b-0da6-4c5f-b56e-48dec492a154.jpg'
+            },
+            {
+                name: 'Razer Blade Stealth 13',
+                price: 21000000,
+                description: 'Ultraportable gaming laptop with a thin design and maximum performance.',
+                photo: 'images/product/razer-blade-stealth-2020-usp-gaming-performance-mobile.jpg'
+            }
         ];
 
-        const laptopBrands = [
-            { brand: "Dell", models: ["XPS 13", "Inspiron 15", "Latitude 7420"] },
-            { brand: "Apple", models: ["MacBook Pro 13\"", "MacBook Air", "MacBook Pro 16\""] },
-            { brand: "Lenovo", models: ["ThinkPad X1 Carbon", "Yoga Slim 7", "IdeaPad 3"] },
-            { brand: "Asus", models: ["ROG Zephyrus G14", "VivoBook S15", "TUF Gaming A15"] },
-            { brand: "HP", models: ["Spectre x360", "Envy 13", "Pavilion 15"] },
-            { brand: "Microsoft", models: ["Surface Laptop 4", "Surface Pro 7", "Surface Book 3"] },
-            { brand: "Acer", models: ["Swift 3", "Aspire 5", "Predator Helios 300"] },
-            { brand: "Razer", models: ["Blade 15", "Blade Stealth 13", "Blade Pro 17"] },
-            { brand: "Samsung", models: ["Galaxy Book Pro", "Galaxy Book Ion", "Galaxy Book Flex"] },
-            { brand: "Google", models: ["Pixelbook Go", "Pixelbook", "Chromebook"] },
-            { brand: "Alienware", models: ["m15 R6", "m17 R4", "x14"] },
-            { brand: "LG", models: ["Gram 17", "Gram 16", "Gram 14"] }
-        ];
-
-        const descriptions = [
-            "Sleek design with powerful performance, perfect for professionals on the go.",
-            "High-end laptop with latest processors, ideal for creative professionals.",
-            "Durable laptop with great keyboard and excellent battery life.",
-            "Gaming laptop with fast CPU and dedicated GPU.",
-            "Convertible laptop with stunning touchscreen display.",
-            "Thin and light laptop with great display and Windows integration.",
-            "Affordable ultrabook with solid performance and battery life.",
-            "Premium gaming laptop with sleek design and powerful hardware.",
-            "Lightweight laptop with AMOLED display and long battery life.",
-            "Chrome OS laptop with excellent keyboard and portability.",
-            "High-performance gaming laptop with advanced cooling system.",
-            "Extremely lightweight laptop with a large screen and good battery life."
-        ];
-
-        // Generate 120 laptops
-        let laptops     = [];
-        let idCounter   = 1;
-        for (let i = 0; i < 120; i++) {
-            const brandIndex        = i % laptopBrands.length;
-            const { brand, models } = laptopBrands[brandIndex];
-            const model             = models[i % models.length];
-            const name              = `${brand} ${model}`;
-
-            // Price range for variety: 7,000,000 to 35,000,000 IDR approx, with brand offset
-            const priceBase         = 7000000 + brandIndex * 2000000;
-            const randomVariation   = Math.floor(Math.random() * 14000000);
-            const price             = priceBase + randomVariation;
-            const description       = descriptions[brandIndex];
-            const photo             = basePhotos[brandIndex];
-            laptops.push({ id: idCounter++, name, price, description, photo });
-        }
-
-        const laptopsPerPage    = 15;
-        let currentPage         = 1;
-        let filteredLaptops     = []; 
+        const laptopsPerPage        = 9;
+        let currentPage             = 1;
+        let filteredLaptops         = laptops; 
 
         const laptopContainer       = document.getElementById('laptopContainer');
         const searchNameInput       = document.getElementById('searchName');
@@ -199,12 +253,12 @@
             card.className  = 'col';
             card.innerHTML  = `
                 <div class="card h-100 shadow-sm border-0 rounded-4">
-                <img src="${laptop.photo}" class="card-img-top rounded-top-4" alt="${laptop.name}" />
-                <div class="card-body d-flex flex-column">
-                    <h5 class="card-title text-primary">${laptop.name}</h5>
-                    <h6 class="card-subtitle mb-2 text-success">${formatCurrency(laptop.price)}</h6>
-                    <p class="card-text flex-grow-1">${laptop.description}</p>
-                </div>
+                    <img src="${laptop.photo}" class="card-img-top rounded-top-4" alt="${laptop.name}" />
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title text-primary">${laptop.name}</h5>
+                        <h6 class="card-subtitle mb-2 text-success">${formatCurrency(laptop.price)}</h6>
+                        <p class="card-text flex-grow-1">${laptop.description}</p>
+                    </div>
                 </div>
             `;
             return card;
@@ -229,82 +283,70 @@
         }
 
         function renderPagination() {
-        const totalPages = Math.ceil(filteredLaptops.length / laptopsPerPage);
-        if (totalPages <= 1) {
-            paginationContainer.innerHTML = '';
-            return;
-        }
-        let paginationHTML = '';
-
-        paginationHTML += `
-            <li class="page-item${currentPage === 1 ? ' disabled' : ''}">
-            <button class="page-link" aria-label="Previous page" data-page="${currentPage - 1}" aria-disabled="${currentPage === 1}">&laquo;</button>
-            </li>`;
-
-        const maxPageButtons    = 7;
-        let startPage           = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
-        let endPage             = startPage + maxPageButtons - 1;
-        if (endPage > totalPages) {
-            endPage     = totalPages;
-            startPage   = Math.max(1, endPage - maxPageButtons + 1);
-        }
-
-        for (let i = startPage; i <= endPage; i++) {
-            paginationHTML += `
-            <li class="page-item${currentPage === i ? ' active' : ''}" aria-current="${currentPage === i ? 'page' : false}">
-            <button class="page-link" data-page="${i}">${i}</button>
-            </li>`;
-        }
-
-        paginationHTML += `
-            <li class="page-item${currentPage === totalPages ? ' disabled' : ''}">
-            <button class="page-link" aria-label="Next page" data-page="${currentPage + 1}" aria-disabled="${currentPage === totalPages}">&raquo;</button>
-            </li>`;
-
-        paginationContainer.innerHTML = paginationHTML;
-
-        const pageButtons = paginationContainer.querySelectorAll('button.page-link');
-        pageButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-            const selectedPage = parseInt(btn.getAttribute('data-page'), 10);
-            if (selectedPage >= 1 && selectedPage <= totalPages && selectedPage !== currentPage) {
-                currentPage = selectedPage;
-                renderLaptops();
-                window.scrollTo({top: 0, behavior: 'smooth'});
+            const totalPages = Math.ceil(filteredLaptops.length / laptopsPerPage);
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
             }
+            let paginationHTML = '';
+
+            paginationHTML += `
+                <li class="page-item${currentPage === 1 ? ' disabled' : ''}">
+                    <button class="page-link" aria-label="Previous page" data-page="${currentPage - 1}" aria-disabled="${currentPage === 1}">&laquo;</button>
+                </li>`;
+
+            for (let i = 1; i <= totalPages; i++) {
+                paginationHTML += `
+                    <li class="page-item${currentPage === i ? ' active' : ''}" aria-current="${currentPage === i ? 'page' : false}">
+                        <button class="page-link" data-page="${i}">${i}</button>
+                    </li>`;
+            }
+
+            paginationHTML += `
+                <li class="page-item${currentPage === totalPages ? ' disabled' : ''}">
+                    <button class="page-link" aria-label="Next page" data-page="${currentPage + 1}" aria-disabled="${currentPage === totalPages}">&raquo;</button>
+                </li>`;
+
+            paginationContainer.innerHTML = paginationHTML;
+
+            const pageButtons = paginationContainer.querySelectorAll('button.page-link');
+            pageButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const selectedPage = parseInt(btn.getAttribute('data-page'), 10);
+                    if (selectedPage >= 1 && selectedPage <= totalPages && selectedPage !== currentPage) {
+                        currentPage = selectedPage;
+                        renderLaptops();
+                        window.scrollTo({top: 0, behavior: 'smooth'});
+                    }
+                });
             });
-        });
         }
 
         function filterAndSortLaptops() {
             const searchTerm    = searchNameInput.value.trim().toLowerCase();
-            const minPrice      = parseInt(minPriceInput.value);
-            const maxPrice      = parseInt(maxPriceInput.value);
-            const sortOption    = sortOptionSelect.value;
+            const minPrice      = parseInt(minPriceInput.value) || 0;
+            const maxPrice      = parseInt(maxPriceInput.value) || Infinity;
 
-            filteredLaptops = laptops.filter(laptop => {
+            filteredLaptops     = laptops.filter(laptop => {
                 const matchesName   = laptop.name.toLowerCase().includes(searchTerm);
-                const priceOK       =
-                    (isNaN(minPrice) || laptop.price >= minPrice) &&
-                    (isNaN(maxPrice) || laptop.price <= maxPrice);
-                    return matchesName && priceOK;
+                const matchesPrice  = laptop.price >= minPrice && laptop.price <= maxPrice;
+                return matchesName && matchesPrice;
             });
 
-            switch (sortOption) {
+            switch (sortOptionSelect.value) {
                 case 'name-asc':
                     filteredLaptops.sort((a, b) => a.name.localeCompare(b.name));
-                break;
+                    break;
                 case 'name-desc':
                     filteredLaptops.sort((a, b) => b.name.localeCompare(a.name));
-                break;
+                    break;
                 case 'price-asc':
                     filteredLaptops.sort((a, b) => a.price - b.price);
-                break;
+                    break;
                 case 'price-desc':
                     filteredLaptops.sort((a, b) => b.price - a.price);
-                break;
+                    break;
             }
-
             currentPage = 1;
             renderLaptops();
         }
@@ -314,15 +356,18 @@
         maxPriceInput.addEventListener('input', filterAndSortLaptops);
         sortOptionSelect.addEventListener('change', filterAndSortLaptops);
 
-        resetFiltersBtn.addEventListener('click', () => {
+        // Reset filters button functionality
+        document.getElementById('resetFilters').addEventListener('click', () => {
             searchNameInput.value   = '';
             minPriceInput.value     = '';
             maxPriceInput.value     = '';
             sortOptionSelect.value  = 'name-asc';
-            filterAndSortLaptops();
+            filteredLaptops         = laptops; // Reset to original laptops
+            currentPage             = 1;
+            renderLaptops();
         });
 
-        filterAndSortLaptops();
+        renderLaptops();
     </script>
     <script src="js/bootstrap.bundle.min.js"></script>
 </body>
